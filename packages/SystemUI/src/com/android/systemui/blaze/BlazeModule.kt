@@ -25,6 +25,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile
 import com.android.systemui.qs.tiles.PowerShareTile
 import com.android.systemui.qs.tiles.SyncTile
 import com.android.systemui.qs.tiles.UsbTetherTile
+import com.android.systemui.qs.tiles.VPNTetheringTile
 import com.android.systemui.qs.tiles.VpnTile
 import com.android.systemui.qs.tiles.WifiTile
 
@@ -82,6 +83,12 @@ interface BlazeModule {
     @IntoMap
     @StringKey(UsbTetherTile.TILE_SPEC)
     fun bindUsbTetherTile(usbTetherTile: UsbTetherTile): QSTileImpl<*>
+
+    /** Inject VPNTetheringTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(VPNTetheringTile.TILE_SPEC)
+    fun bindVPNTetheringTile(vpnTetheringTile: VPNTetheringTile): QSTileImpl<*>
 
     /** Inject VpnTile into tileMap in QSModule */
     @Binds
