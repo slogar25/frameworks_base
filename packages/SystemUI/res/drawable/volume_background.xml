@@ -4,7 +4,6 @@
 
   SPDX-License-Identifier: Apache-2.0
 -->
-
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:androidprv="http://schemas.android.com/apk/prv/res/android">
     <size android:width="@dimen/volume_dialog_panel_width" />
