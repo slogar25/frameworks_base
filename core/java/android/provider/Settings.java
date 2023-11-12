@@ -6118,6 +6118,11 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
 
         /**
+         * @hide
+         */
+        public static final String VOLUME_MEDIA_OUTPUT_TOGGLE = "volume_media_output_toggle";
+
+        /**
          * Adaptive playback
          * Automatically pause media when the volume is muted and
          * will resume automatically when volume is restored.
