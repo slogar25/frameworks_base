@@ -187,6 +187,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
     private DynamicScheme mDynamicSchemeDark;
     private DynamicScheme mDynamicSchemeLight;
     private final TunerService mTunerService;
+    private final BlazeThemeController mThemeController;
 
     // Defers changing themes until Setup Wizard is done.
     private boolean mDeferredThemeEvaluation;
@@ -475,6 +476,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
         mUiModeManager = uiModeManager;
         mTunerService = tunerService;
         dumpManager.registerDumpable(TAG, this);
+        mThemeController = new BlazeThemeController(mContext.getContentResolver(), mBgHandler);
     }
 
     @Override
