@@ -322,12 +322,12 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         mLargeClockFrame = mView.findViewById(R.id.lockscreen_clock_view_large);
         mCustomClock = mView.findViewById(R.id.clock_ls);
         mCustomClockFrame = mView.findViewById(R.id.clock_frame);
-        View kgWidgets = mView.findViewById(R.id.keyguard_widgets);
-        mLsWidgets = (LockScreenWidgets) kgWidgets;
-        mLsWidgets.setActivityStarter(mActivityStarter);
-        mLsWidgets.setConfigurationController(mConfigurationController);
-        mLsWidgets.setFlashLightController(mFlashlightController);
-        mLsWidgets.setStatusBarStateController(mStatusBarStateController);
+        mLsWidgets = (LockScreenWidgets) mView.findViewById(R.id.keyguard_widgets);
+        mLsWidgets.initDependencies(
+            mActivityStarter, 
+            mConfigurationController, 
+            mFlashlightController,
+            mStatusBarStateController);
 
         if (!mOnlyClock) {
             mDumpManager.unregisterDumpable(getClass().getSimpleName()); // unregister previous
