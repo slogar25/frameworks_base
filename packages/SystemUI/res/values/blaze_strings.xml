@@ -70,11 +70,6 @@
     <string name="tristate_rotation_90">Landscape (90°)</string>
     <string name="tristate_rotation_270">Landscape (270°)</string>
 
-    <!-- Data usage info in QS footer -->
-    <string name="usage_data">used</string>
-    <string name="usage_data_default_suffix">Data</string>
-    <string name="usage_wifi_default_suffix">Wi-Fi</string>
-
     <!-- Status bar tuner -->
     <string name="status_bar_nfc">NFC</string>
 

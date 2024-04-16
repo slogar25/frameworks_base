@@ -6305,12 +6305,6 @@ public final class Settings {
         public static final String ALERT_SLIDER_NOTIFICATIONS = "alert_slider_notifications";
 
         /**
-         * Whether to show data usage in qs footer
-         * @hide
-         */
-        public static final String QS_FOOTER_DATA_USAGE = "qs_footer_data_usage";
-
-        /**
          * Whether or not to vibrate when a touchscreen gesture is detected
          * @hide
          */
