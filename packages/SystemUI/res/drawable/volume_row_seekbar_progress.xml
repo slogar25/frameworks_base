@@ -30,29 +30,16 @@
     <item
         android:id="@+id/volume_seekbar_progress_icon"
         android:gravity="center_vertical|right"
-        android:height="0dp"
-        android:width="0dp"
-        android:right="0dp">
+        android:height="@dimen/rounded_slider_icon_size"
+        android:width="@dimen/rounded_slider_icon_size"
+        android:right="@dimen/volume_slider_icon_inset">
         <rotate
             android:fromDegrees="-270"
             android:toDegrees="-270">
             <!-- A placeholder drawable is required here - it'll be replaced in code. -->
             <com.android.systemui.util.AlphaTintDrawableWrapper
                 android:drawable="@drawable/ic_volume_media"
-                android:tint="@*android:color/transparent" />
-        </rotate>
-    </item>
-    <item
-        android:gravity="center|right"
-        android:height="8dp"
-        android:width="8dp"
-        android:right="4dp">
-        <rotate
-            android:fromDegrees="-270.0"
-            android:toDegrees="-270.0">
-            <com.android.systemui.util.AlphaTintDrawableWrapper
-                android:tint="@color/volume_thumb_seekbar_color"
-                android:drawable="@drawable/volume_seekbar_thumb_10dp" />
+                android:tint="?androidprv:attr/colorAccentPrimaryVariant" />
         </rotate>
     </item>
 </layer-list>
