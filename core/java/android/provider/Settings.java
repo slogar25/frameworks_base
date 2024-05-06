@@ -6385,6 +6385,12 @@ public final class Settings {
          */
         public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
 
+	/**
+         * Settings Dashboard Style
+         * @hide
+         */
+        public static final String SETTINGS_DASHBOARD_STYLE = "settings_dashboard_style";
+
         /**
          * @hide
          */
