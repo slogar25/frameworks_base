@@ -610,6 +610,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     /**
      * Creates the display power controller.
      */
+    public
     DisplayPowerController(Context context, Injector injector,
             DisplayPowerCallbacks callbacks, Handler handler,
             SensorManager sensorManager, DisplayBlanker blanker, LogicalDisplay logicalDisplay,
@@ -660,6 +661,11 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         mOnBrightnessChangeRunnable = onBrightnessChangeRunnable;
 
         PowerManager pm = context.getSystemService(PowerManager.class);
+                DisplayDeviceConfig displayDeviceConfig = mDisplayDevice.getDisplayDeviceConfig();
+
+        mContentResolver = context.getContentResolver();
+
+        final Resources resources = context.getResources();
 
         final Resources resources = context.getResources();
 
@@ -1940,7 +1946,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
                 0, UserHandle.USER_CURRENT);
                 
         if (mPowerRequest.lowPowerMode) {
-            if ((brightnessState > PowerManager.BRIGHTNESS_MIN) &&
+            if ((brightnessState > mScreenBrightnessRangeMinimum) &&
                   ((mSmartPixelsEnable == 0) || (mSmartPixelsOnPowerSave == 0))) {
                 final float brightnessFactor =
                         Math.min(mPowerRequest.screenLowPowerBrightnessFactor, 1);
