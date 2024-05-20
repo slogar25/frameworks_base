@@ -292,7 +292,7 @@ object Flags {
     /** Enables new QS Edit Mode visual refresh */
     // TODO(b/269787742): Tracking Bug
     @JvmField
-    val ENABLE_NEW_QS_EDIT_MODE = releasedFlag("enable_new_qs_edit_mode")
+    val ENABLE_NEW_QS_EDIT_MODE = releasedFlag("enable_new_qs_edit_mode", teamfood = false)
 
     // 600- status bar
 
@@ -511,7 +511,7 @@ object Flags {
     // TODO(b/279405451): Tracking Bug
     @JvmField
     val CLIPBOARD_SHARED_TRANSITIONS =
-            releasedFlag("clipboard_shared_transitions")
+            releasedFlag("clipboard_shared_transitions", teamfood = true)
 
     /**
      * Whether the scene container (Flexiglass) is enabled. Note that SceneContainerFlags#isEnabled
