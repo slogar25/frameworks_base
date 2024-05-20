@@ -477,6 +477,11 @@ public class StatusBarIconControllerImpl implements Tunable,
     public void onDensityOrFontScaleChanged() {
         refreshIconGroups();
     }
+    
+    @Override
+    public void onThemeChanged() {
+        refreshIconGroups();
+    }
 
     private String createExternalSlotName(String slot) {
         if (slot.endsWith(EXTERNAL_SLOT_SUFFIX)) {
