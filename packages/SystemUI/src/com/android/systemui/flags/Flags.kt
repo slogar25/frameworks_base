@@ -210,7 +210,7 @@ object Flags {
 
     /** Provide new auth messages on the bouncer. */
     // TODO(b/277961132): Tracking bug.
-    @JvmField val REVAMPED_BOUNCER_MESSAGES = unreleasedFlag("revamped_bouncer_messages")
+    @JvmField val REVAMPED_BOUNCER_MESSAGES = releasedFlag("revamped_bouncer_messages")
 
     /** Keyguard Migration */
 
@@ -292,7 +292,7 @@ object Flags {
     /** Enables new QS Edit Mode visual refresh */
     // TODO(b/269787742): Tracking Bug
     @JvmField
-    val ENABLE_NEW_QS_EDIT_MODE = unreleasedFlag("enable_new_qs_edit_mode", teamfood = false)
+    val ENABLE_NEW_QS_EDIT_MODE = releasedFlag("enable_new_qs_edit_mode", teamfood = false)
 
     // 600- status bar
 
@@ -443,7 +443,7 @@ object Flags {
     @Keep
     @JvmField
     val WM_ALWAYS_ENFORCE_PREDICTIVE_BACK =
-        sysPropBooleanFlag("persist.wm.debug.predictive_back_always_enforce", default = false)
+        sysPropBooleanFlag("persist.wm.debug.predictive_back_always_enforce", default = true)
 
     // TODO(b/254512728): Tracking Bug
     @JvmField val NEW_BACK_AFFORDANCE = releasedFlag("new_back_affordance")
@@ -511,7 +511,7 @@ object Flags {
     // TODO(b/279405451): Tracking Bug
     @JvmField
     val CLIPBOARD_SHARED_TRANSITIONS =
-            unreleasedFlag("clipboard_shared_transitions", teamfood = true)
+            releasedFlag("clipboard_shared_transitions", teamfood = true)
 
     /**
      * Whether the scene container (Flexiglass) is enabled. Note that SceneContainerFlags#isEnabled
@@ -601,7 +601,7 @@ object Flags {
     val LOCKSCREEN_WALLPAPER_DREAM_ENABLED = unreleasedFlag("enable_lockscreen_wallpaper_dream")
 
     // TODO(b/283084712): Tracking Bug
-    @JvmField val IMPROVED_HUN_ANIMATIONS = unreleasedFlag("improved_hun_animations")
+    @JvmField val IMPROVED_HUN_ANIMATIONS = releasedFlag("improved_hun_animations")
 
     // TODO(b/283447257): Tracking bug
     @JvmField
