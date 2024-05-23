@@ -2667,7 +2667,10 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
             DejankUtils.stopDetectingBlockingIpcs(tag);
             mWallpaperDepthUtils.updateDepthWallpaperVisibility();
             if (Settings.System.getIntForUser(mContext.getContentResolver(),
-                                              mLockscreenUserManager.getCurrentUserId()) == 1)
+                                              Settings.System.ARCANE_IDLE_MANAGER, 1,
+                                              mLockscreenUserManager.getCurrentUserId()) == 1) {
+                ArcaneIdleManager.haltManager();
+            }
         }
 
         /**
