@@ -2666,7 +2666,10 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
             });
             DejankUtils.stopDetectingBlockingIpcs(tag);
             mWallpaperDepthUtils.updateDepthWallpaperVisibility();
-            }
+            if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                                              mLockscreenUserManager.getCurrentUserId()) == 1)
+        }
+
         /**
          * Private helper for starting the LOCKSCREEN_TRANSITION_FROM_AOD animation - only necessary
          * so we can start it from either onFinishedWakingUp() or onFinishedWakingUp().
