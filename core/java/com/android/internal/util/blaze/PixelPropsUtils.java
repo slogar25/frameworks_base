@@ -404,6 +404,17 @@ public class PixelPropsUtils {
         }
     }
 
+    private static void setVersionFieldInt(String key, int value) {
+        try {
+            Field field = Build.VERSION.class.getDeclaredField(key);
+            field.setAccessible(true);
+            field.set(null, value);
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Log.e(TAG, "Failed to spoof Build." + key, e);
+        }
+    }
+
     private static void spoofBuildGms() {
         // Alter build parameters to avoid hardware attestation enforcement
 	setPropValue("BRAND", "google");
@@ -413,18 +424,23 @@ public class PixelPropsUtils {
         setPropValue("FINGERPRINT", "google/sailfish/sailfish:8.1.0/OPM1.171019.011/4448085:user/release-keys");
         setPropValue("MODEL", "Pixel");
         setPropValue("PRODUCT", "sailfish");
+        setPropValue("TAGS", "release-keys");
+        setPropValue("TYPE", "user");
         setVersionFieldString("SECURITY_PATCH", "2017-12-05");
+        setVersionFieldString("RELEASE", "8.1.0");
+        setVersionFieldString("INCREMENTAL", "4448085");
+        setVersionFieldInt("DEVICE_INITIAL_SDK_INT", 25);
     }
 
     private static boolean isCallerSafetyNet() {
-        return sIsGms && Arrays.stream(Thread.currentThread().getStackTrace())
-                .anyMatch(elem -> elem.getClassName().contains("DroidGuard"));
+        return Arrays.stream(Thread.currentThread().getStackTrace())
+                .anyMatch(elem -> elem.getClassName().toLowerCase().contains("droidguard"));
     }
 
     public static void onEngineGetCertificateChain() {
         // Check stack for SafetyNet or Play Integrity
         if ((isCallerSafetyNet() || sIsFinsky) && !sIsExcluded) {
-            Log.i(TAG, "Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);
+            Log.i(TAG, "Blocked key attestation");
             throw new UnsupportedOperationException();
         }
     }
