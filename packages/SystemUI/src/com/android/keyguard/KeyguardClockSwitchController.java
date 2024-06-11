@@ -412,10 +412,8 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         mKeyguardUnlockAnimationController.addKeyguardUnlockAnimationListener(
                 mKeyguardUnlockAnimationListener);
 
-        mTunerService.addTunable(this, 
-            LOCKSCREEN_WEATHER_ENABLED,
+        mTunerService.addTunable(this,
             LOCKSCREEN_CLOCK_STYLE, 
-            LOCKSCREEN_WEATHER_ENABLED, 
             LOCKSCREEN_WIDGETS_ENABLED);
 
         updateCustomClock();

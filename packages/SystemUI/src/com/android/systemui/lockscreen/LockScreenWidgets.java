@@ -75,9 +75,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.android.internal.util.blaze.OmniJawsClient;
-
-public class LockScreenWidgets extends LinearLayout implements TunerService.Tunable, OmniJawsClient.OmniJawsObserver {
+public class LockScreenWidgets extends LinearLayout implements TunerService.Tunable {
 
     private static final String LOCKSCREEN_WIDGETS =
             "system:lockscreen_widgets";
@@ -96,9 +94,6 @@ public class LockScreenWidgets extends LinearLayout implements TunerService.Tuna
             R.id.kg_item_placeholder3,
             R.id.kg_item_placeholder4
     };
-
-    private OmniJawsClient mWeatherClient;
-    private OmniJawsClient.WeatherInfo mWeatherInfo;
 
     private ActivityStarter mActivityStarter;
     private ConfigurationController mConfigurationController;
@@ -158,98 +153,12 @@ public class LockScreenWidgets extends LinearLayout implements TunerService.Tuna
         mLightColor = mContext.getResources().getColor(R.color.lockscreen_widget_background_color_light);
         mDarkColorActive = mContext.getResources().getColor(R.color.lockscreen_widget_active_color_dark);
         mLightColorActive = mContext.getResources().getColor(R.color.lockscreen_widget_active_color_light);
-        if (mWeatherClient == null) {
-            mWeatherClient = new OmniJawsClient(context);
-        }
         try {
             mCameraId = mCameraManager.getCameraIdList()[0];
         } catch (Exception e) {}
         Dependency.get(TunerService.class).addTunable(this, LOCKSCREEN_WIDGETS, LOCKSCREEN_WIDGETS_EXTRAS);
     }
 
-    public void enableWeatherUpdates() {
-        if (mWeatherClient != null) {
-            mWeatherClient.addObserver(this);
-            queryAndUpdateWeather();
-        }
-    }
-
-    public void disableWeatherUpdates() {
-        if (mWeatherClient != null) {
-            mWeatherClient.removeObserver(this);
-        }
-    }
-
-    @Override
-    public void weatherError(int errorReason) {
-        if (errorReason == OmniJawsClient.EXTRA_ERROR_DISABLED) {
-            mWeatherInfo = null;
-        }
-    }
-
-    @Override
-    public void weatherUpdated() {
-        queryAndUpdateWeather();
-    }
-
-    @Override
-    public void updateSettings() {
-        queryAndUpdateWeather();
-    }
-
-    private void queryAndUpdateWeather() {
-        try {
-            if (mWeatherClient == null || !mWeatherClient.isOmniJawsEnabled()) {
-                return;
-            }
-            mWeatherClient.queryWeather();
-            mWeatherInfo = mWeatherClient.getWeatherInfo();
-            if (mWeatherInfo != null) {
-            	// OpenWeatherMap
-                String formattedCondition = mWeatherInfo.condition;
-                if (formattedCondition.toLowerCase().contains("clouds")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_clouds);
-                } else if (formattedCondition.toLowerCase().contains("rain")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_rain);
-                } else if (formattedCondition.toLowerCase().contains("clear")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_clear);
-                } else if (formattedCondition.toLowerCase().contains("storm")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_storm);
-                } else if (formattedCondition.toLowerCase().contains("snow")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_snow);
-                } else if (formattedCondition.toLowerCase().contains("wind")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_wind);
-                } else if (formattedCondition.toLowerCase().contains("mist")) {
-                    formattedCondition = mContext.getResources().getString(R.string.weather_condition_mist);
-                }
-                
-				// MET Norway
-				if (formattedCondition.toLowerCase().contains("_")) {
-					final String[] words = formattedCondition.split("_");
-					final StringBuilder formattedConditionBuilder = new StringBuilder();
-					for (String word : words) {
-						final String capitalizedWord = word.substring(0, 1).toUpperCase() + word.substring(1);
-						formattedConditionBuilder.append(capitalizedWord).append(" ");
-					}
-					formattedCondition = formattedConditionBuilder.toString().trim();
-				}
-                
-                final Drawable d = mWeatherClient.getWeatherConditionImage(mWeatherInfo.conditionCode);
-                if (weatherButtonFab != null) {
-                	weatherButtonFab.setIcon(d);
-                	weatherButtonFab.setText(mWeatherInfo.temp + mWeatherInfo.tempUnits + " \u2022 " + formattedCondition);
-                	weatherButtonFab.setIconTint(null);
-                }
-                if (weatherButton != null) {
-                	weatherButton.setImageDrawable(d);
-                	weatherButton.setImageTintList(null);
-                }
-            }
-        } catch(Exception e) {
-            // Do nothing
-        }
-    }
-    
     public void initDependencies(
             ActivityStarter activityStarter,
             ConfigurationController configurationController,
@@ -373,12 +282,6 @@ public class LockScreenWidgets extends LinearLayout implements TunerService.Tuna
         }
         if (mFlashlightController != null) {
             mFlashlightController.removeCallback(mFlashlightCallback);
-        }
-        if (mMainLockscreenWidgetsList != null 
-            && !mMainLockscreenWidgetsList.contains("weather") 
-        	&& mSecondaryLockscreenWidgetsList != null 
-        	&& !mSecondaryLockscreenWidgetsList.contains("weather")) {
-        	disableWeatherUpdates();
         }
     }
 
@@ -539,16 +442,6 @@ public class LockScreenWidgets extends LinearLayout implements TunerService.Tuna
                 }
                 setUpWidgetResources(iv, efab, v -> toggleMediaPlaybackState(), R.drawable.ic_media_play, R.string.controls_media_button_play);
                 break;
-			case "weather":
-                if (iv != null) {
-                    weatherButton = iv;
-                }
-                if (efab != null) {
-                    weatherButtonFab = efab;
-                }
-                setUpWidgetResources(iv, efab, v -> launchWeatherApp(), R.drawable.ic_weather, R.string.weather_data_unavailable);
-                enableWeatherUpdates();
-                break;
             default:
                 break;
         }
@@ -697,13 +590,6 @@ public class LockScreenWidgets extends LinearLayout implements TunerService.Tuna
         launchIntent.addCategory(Intent.CATEGORY_APP_CALCULATOR);
         launchAppIfAvailable(launchIntent, R.string.calculator);
     }
-
-	private void launchWeatherApp() {
-		final Intent launchIntent = new Intent();
-		launchIntent.setAction(Intent.ACTION_MAIN);
-		launchIntent.setClassName("org.omnirom.omnijaws", "org.omnirom.omnijaws.SettingsActivity");
-		launchAppIfAvailable(launchIntent, R.string.omnijaws_weather);
-	}
 
     private void toggleFlashlight() {
         if (torchButton == null && torchButtonFab == null) return;
