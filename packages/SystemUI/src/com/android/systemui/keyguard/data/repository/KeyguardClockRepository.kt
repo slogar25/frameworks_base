@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
@@ -60,6 +59,8 @@ interface KeyguardClockRepository {
     val currentClockId: Flow<ClockId>
 
     val currentClock: StateFlow<ClockController?>
+
+    val previewClockPair: StateFlow<Pair<ClockController, ClockController>>
 
     val clockEventController: ClockEventController
     fun setClockSize(@ClockSize size: Int)
@@ -111,7 +112,6 @@ constructor(
                 awaitClose { clockRegistry.unregisterClockChangeListener(listener) }
             }
             .mapNotNull { it }
-            .distinctUntilChanged()
 
     override val currentClock: StateFlow<ClockController?> =
         currentClockId
@@ -120,6 +120,16 @@ constructor(
                 scope = applicationScope,
                 started = SharingStarted.WhileSubscribed(),
                 initialValue = clockRegistry.createCurrentClock()
+            )
+
+    override val previewClockPair: StateFlow<Pair<ClockController, ClockController>> =
+        currentClockId
+            .map { Pair(clockRegistry.createCurrentClock(), clockRegistry.createCurrentClock()) }
+            .stateIn(
+                scope = applicationScope,
+                started = SharingStarted.WhileSubscribed(),
+                initialValue =
+                    Pair(clockRegistry.createCurrentClock(), clockRegistry.createCurrentClock())
             )
 
     @VisibleForTesting
