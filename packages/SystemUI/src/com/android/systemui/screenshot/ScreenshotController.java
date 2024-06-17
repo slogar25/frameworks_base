@@ -1240,6 +1240,8 @@ public class ScreenshotController {
     }
 
     /** Injectable factory to create screenshot controller instances for a specific display. */
+    @AssistedFactory
+    public interface Factory {
         /**
          * Creates an instance of the controller for that specific displayId.
          *
@@ -1248,4 +1250,5 @@ public class ScreenshotController {
          *                                 display.
          */
         ScreenshotController create(int displayId, boolean showUIOnExternalDisplay);
+    }
 }

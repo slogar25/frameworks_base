@@ -22,6 +22,7 @@ import static android.content.Intent.ACTION_CLOSE_SYSTEM_DIALOGS;
 import static com.android.internal.util.ScreenshotHelper.SCREENSHOT_MSG_PROCESS_COMPLETE;
 import static com.android.internal.util.ScreenshotHelper.SCREENSHOT_MSG_URI;
 import static com.android.systemui.flags.Flags.MULTI_DISPLAY_SCREENSHOT;
+import com.android.systemui.screenshot.ScreenshotController;
 import static com.android.systemui.screenshot.LogConfig.DEBUG_CALLBACK;
 import static com.android.systemui.screenshot.LogConfig.DEBUG_DISMISS;
 import static com.android.systemui.screenshot.LogConfig.DEBUG_SERVICE;

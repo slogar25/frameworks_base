@@ -72,6 +72,7 @@ import com.android.systemui.statusbar.phone.PhoneStatusBarViewController;
 import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 import com.android.systemui.statusbar.window.StatusBarWindowStateController;
 import com.android.systemui.unfold.UnfoldTransitionProgressProvider;
+import com.android.systemui.user.domain.interactor.SelectedUserInteractor;
 import com.android.systemui.util.kotlin.JavaAdapter;
 import com.android.systemui.util.time.SystemClock;
 

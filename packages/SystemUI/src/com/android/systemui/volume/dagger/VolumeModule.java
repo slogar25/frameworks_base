@@ -44,6 +44,7 @@ import com.android.systemui.volume.panel.dagger.VolumePanelComponent;
 import com.android.systemui.volume.panel.dagger.factory.VolumePanelComponentFactory;
 import com.android.systemui.volume.panel.ui.activity.VolumePanelActivity;
 import com.android.systemui.volume.ui.navigation.VolumeNavigator;
+import com.android.systemui.plugins.ActivityStarter;
 
 import dagger.Binds;
 import dagger.Lazy;
@@ -104,6 +105,7 @@ public interface VolumeModule {
             InteractionJankMonitor interactionJankMonitor,
             VolumePanelNavigationInteractor volumePanelNavigationInteractor,
             VolumeNavigator volumeNavigator,
+            ActivityStarter activityStarter,  // Added ActivityStarter parameter
             CsdWarningDialog.Factory csdFactory,
             DevicePostureController devicePostureController,
             DumpManager dumpManager,
@@ -117,6 +119,7 @@ public interface VolumeModule {
                 deviceProvisionedController,
                 configurationController,
                 mediaOutputDialogFactory,
+                activityStarter,  // Added ActivityStarter argument
                 interactionJankMonitor,
                 volumePanelNavigationInteractor,
                 volumeNavigator,

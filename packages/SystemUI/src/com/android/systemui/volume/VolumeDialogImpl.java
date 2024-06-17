@@ -53,6 +53,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -131,6 +132,7 @@ import com.android.systemui.haptics.slider.HapticSliderViewBinder;
 import com.android.systemui.haptics.slider.SeekableSliderHapticPlugin;
 import com.android.systemui.haptics.slider.SliderHapticFeedbackConfig;
 import com.android.systemui.media.dialog.MediaOutputDialogFactory;
+import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.VolumeDialog;
 import com.android.systemui.plugins.VolumeDialogController;
 import com.android.systemui.plugins.VolumeDialogController.State;
@@ -283,6 +285,7 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
     private final ConfigurationController mConfigurationController;
     private final MediaOutputDialogFactory mMediaOutputDialogFactory;
     private final CsdWarningDialog.Factory mCsdWarningDialogFactory;
+    private final ActivityStarter mActivityStarter;
     private final VolumePanelNavigationInteractor mVolumePanelNavigationInteractor;
     private final VolumeNavigator mVolumeNavigator;
     private boolean mShowing;
@@ -344,6 +347,7 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
             DeviceProvisionedController deviceProvisionedController,
             ConfigurationController configurationController,
             MediaOutputDialogFactory mediaOutputDialogFactory,
+	    ActivityStarter activityStarter,
             InteractionJankMonitor interactionJankMonitor,
             VolumePanelNavigationInteractor volumePanelNavigationInteractor,
             VolumeNavigator volumeNavigator,
@@ -369,6 +373,7 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
         mConfigurationController = configurationController;
         mMediaOutputDialogFactory = mediaOutputDialogFactory;
         mCsdWarningDialogFactory = csdWarningDialogFactory;
+	mActivityStarter = activityStarter;
         mShowActiveStreamOnly = showActiveStreamOnly();
         mHasSeenODICaptionsTooltip =
                 Prefs.getBoolean(context, Prefs.Key.HAS_SEEN_ODI_CAPTIONS_TOOLTIP, false);
