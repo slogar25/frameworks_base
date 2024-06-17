@@ -1122,7 +1122,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (!mPowerKeyHandled) {
             if (!interactive) {
                 if (mTorchActionMode == 0) {
-                    wakeUpFromWakeKey(event);
+                    wakeUpFromWakeKey(event, true);
                 }
             }
         } else {
@@ -1236,7 +1236,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
             }
         } else if (mTorchActionMode != 0 && beganFromNonInteractive) {
-            wakeUpFromWakeKey(eventTime);
+            wakeUpFromWakeKey(new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_UNKNOWN, 0), true);
         }
     }
 
@@ -1368,7 +1368,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.Global.putInt(mContext.getContentResolver(),
                             Settings.Global.THEATER_MODE_ON, 0);
                     if (!interactive) {
-                        wakeUpFromWakeKey(eventTime, KEYCODE_POWER, /* isDown= */ false);
+                        wakeUpFromWakeKey(new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_UNKNOWN, 0), /* isDown= */ false);
                     }
                 } else {
                     Slog.i(TAG, "Toggling theater mode on.");
@@ -1384,7 +1384,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case MULTI_PRESS_POWER_BRIGHTNESS_BOOST:
                 Slog.i(TAG, "Starting brightness boost.");
                 if (!interactive) {
-                    wakeUpFromWakeKey(eventTime, KEYCODE_POWER, /* isDown= */ false);
+                    wakeUpFromWakeKey(new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_UNKNOWN, 0), /* isDown= */ false);
                 }
                 mPowerManager.boostScreenBrightness(eventTime);
                 break;
@@ -4800,7 +4800,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             boolean shouldTurnOnTv = false;
             if (down && (keyCode == KeyEvent.KEYCODE_POWER
                     || keyCode == KeyEvent.KEYCODE_TV_POWER)) {
-                wakeUpFromWakeKey(event);
+                wakeUpFromWakeKey(event, true);
                 shouldTurnOnTv = true;
             } else if (down && (isWakeKey || keyCode == KeyEvent.KEYCODE_WAKEUP)
                     && isWakeKeyWhenScreenOff(keyCode)) {
