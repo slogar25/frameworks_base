@@ -85,6 +85,9 @@ class MobileIconViewModel(
     flags: FeatureFlagsClassic,
     scope: CoroutineScope,
 ) : MobileIconViewModelCommon {
+
+    override val showHd: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
     private val cellProvider by lazy {
         CellularIconViewModel(
             subscriptionId,
@@ -153,13 +156,16 @@ private class CarrierBasedSatelliteViewModelImpl(
     override val subscriptionId: Int,
     interactor: MobileIconInteractor,
 ) : MobileIconViewModelCommon {
+
     override val isVisible: StateFlow<Boolean> = MutableStateFlow(true)
     override val icon: Flow<SignalIconModel> = interactor.signalLevelIcon
-
     override val contentDescription: Flow<ContentDescription> =
         MutableStateFlow(ContentDescription.Loaded(""))
 
-    /** These fields are not used for satellite icons currently */
+    // Implementing the required property
+    override val showHd: Flow<Boolean> = flowOf(false)
+
+    // Fields not used for satellite icons
     override val roaming: Flow<Boolean> = flowOf(false)
     override val networkTypeIcon: Flow<Icon.Resource?> = flowOf(null)
     override val networkTypeBackground: StateFlow<Icon.Resource?> = MutableStateFlow(null)
