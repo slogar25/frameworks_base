@@ -85,7 +85,7 @@ final class DisplayPowerState {
 
     DisplayPowerState(
             DisplayBlanker blanker, int screenAnimatorMode, int displayId, int displayState) {
-        this(blanker, colorFade, displayId, displayState, BackgroundThread.getExecutor());
+        this(blanker, screenAnimatorMode, displayId, displayState, BackgroundThread.getExecutor());
     }
 
     @VisibleForTesting
