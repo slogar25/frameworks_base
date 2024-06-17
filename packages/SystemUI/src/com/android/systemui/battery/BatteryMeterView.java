@@ -280,7 +280,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
         mLandscapeBatteryM = new LandscapeBatteryM(context, frameColor);
         mLandscapeBatteryN = new LandscapeBatteryN(context, frameColor);
         mLandscapeBatteryO = new LandscapeBatteryO(context, frameColor);
-        
+
         atts.recycle();
 
         setupLayoutTransition();
@@ -315,8 +315,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
 
         setClipChildren(false);
         setClipToPadding(false);
-    }
-    
+
+        // Move the following lines into the constructor
         mBatteryStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_BATTERY_STYLE, BATTERY_STYLE_PORTRAIT, UserHandle.USER_CURRENT);
         updateDrawable();
@@ -334,7 +334,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
         mlp.setMargins(0, 0, 0,
                 getResources().getDimensionPixelOffset(R.dimen.battery_margin_bottom));
         addView(mBatteryIconView, mlp);
-        
+
         // Charging icon
         mChargingIconView = new ImageView(context);
         addView(mChargingIconView, mlp);
@@ -342,6 +342,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
 
         updatePercentView();
         updateVisibility();
+    }
 
     private void updateFlipper() {
         setOrientation(LinearLayout.HORIZONTAL);
@@ -455,7 +456,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
     public boolean hasOverlappingRendering() {
         return false;
     }
-    
+
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (EVL_BATTERY_IMAGE_ROTATION.equals(key)) {
@@ -513,7 +514,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
         }
         updateSettings();
     }
-    
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -1296,6 +1297,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
                 || mShowPercentMode == MODE_ON
                 || mShowPercentMode == MODE_ESTIMATE;
         shouldShow = shouldShow && !mBatteryStateUnknown;
+        
+    }
 
     void updateShowPercent() {
         boolean drawPercentInside = mShowBatteryPercent == 1
@@ -1432,6 +1435,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
         if (mBatteryIconView == null) {
             return;
         }
+    }
         
     void scaleBatteryMeterViewsLegacy() {
         Resources res = getContext().getResources();
@@ -1874,4 +1878,3 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver ,Tune
         mCallbacks.remove(callbacks);
     }
 }
-

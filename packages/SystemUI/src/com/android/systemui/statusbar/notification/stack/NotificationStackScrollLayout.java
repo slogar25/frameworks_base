@@ -114,12 +114,9 @@ import com.android.systemui.statusbar.notification.row.ActivatableNotificationVi
 import com.android.systemui.statusbar.notification.row.ExpandableNotificationRow;
 import com.android.systemui.statusbar.notification.row.ExpandableView;
 import com.android.systemui.statusbar.notification.row.StackScrollerDecorView;
-<<<<<<< HEAD
 import com.android.systemui.statusbar.phone.CentralSurfaces;
-=======
 import com.android.systemui.statusbar.notification.shared.NotificationsImprovedHunAnimation;
 import com.android.systemui.statusbar.notification.shared.NotificationsLiveDataStoreRefactor;
->>>>>>> 03ee96228c288f00ffe3e2968eb2b723bd76fd61
 import com.android.systemui.statusbar.phone.HeadsUpAppearanceController;
 import com.android.systemui.statusbar.phone.HeadsUpTouchHelper;
 import com.android.systemui.statusbar.phone.ScreenOffAnimationController;
@@ -341,12 +338,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements Dumpable
         }
     };
     private NotificationStackScrollLogger mLogger;
-<<<<<<< HEAD
     private CentralSurfaces mCentralSurfaces;
     private NotificationsController mNotificationsController;
-=======
     private Runnable mResetUserExpandedStatesRunnable;
->>>>>>> 03ee96228c288f00ffe3e2968eb2b723bd76fd61
+
     private ActivityStarter mActivityStarter;
     private final int[] mTempInt2 = new int[2];
     private final HashSet<Runnable> mAnimationFinishedRunnables = new HashSet<>();

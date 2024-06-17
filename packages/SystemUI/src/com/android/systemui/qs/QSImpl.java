@@ -209,14 +209,11 @@ public class QSImpl implements QS, CommandQueue.Callbacks, StatusBarStateControl
         mFooterActionsViewModelFactory = footerActionsViewModelFactory;
         mFooterActionsViewBinder = footerActionsViewBinder;
         mListeningAndVisibilityLifecycleOwner = new ListeningAndVisibilityLifecycleOwner();
-<<<<<<< HEAD
         mSecureLockscreenQSDisabler = secureLockscreenQSDisabler;
-=======
         mSceneContainerFlags = sceneContainerFlags;
         if (mSceneContainerFlags.isEnabled()) {
             mStatusBarState = StatusBarState.SHADE;
         }
->>>>>>> 03ee96228c288f00ffe3e2968eb2b723bd76fd61
     }
 
     /**

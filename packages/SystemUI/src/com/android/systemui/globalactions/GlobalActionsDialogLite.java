@@ -412,11 +412,8 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
         mKeyguardUpdateMonitor = keyguardUpdateMonitor;
         mDialogTransitionAnimator = dialogTransitionAnimator;
         mSelectedUserInteractor = selectedUserInteractor;
-<<<<<<< HEAD
         mBlurUtils = blurUtils;
-=======
         mInteractor = interactor;
->>>>>>> 03ee96228c288f00ffe3e2968eb2b723bd76fd61
 
         // receive broadcasts
         IntentFilter filter = new IntentFilter();
