@@ -1331,7 +1331,7 @@ public final class PermissionManager {
         initializeUsageHelper();
         boolean includeMicrophoneUsage = !micMuted;
         return mUsageHelper.getOpUsageDataByDevice(includeMicrophoneUsage,
-                VirtualDeviceManager.PERSISTENT_DEVICE_ID_DEFAULT);
+                VirtualDeviceManager.PERSISTENT_DEVICE_ID_DEFAULT,true);
     }
 
     /**

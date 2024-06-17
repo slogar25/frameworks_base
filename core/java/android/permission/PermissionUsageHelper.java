@@ -387,7 +387,7 @@ public class PermissionUsageHelper implements AppOpsManager.OnOpActiveChangedLis
         for (int index = 0; index < persistentDeviceIds.size(); index++) {
             allUsages.addAll(
                     getOpUsageDataByDevice(includeMicrophoneUsage,
-                            persistentDeviceIds.valueAt(index)));
+                            persistentDeviceIds.valueAt(index),true));
         }
 
         return allUsages;
