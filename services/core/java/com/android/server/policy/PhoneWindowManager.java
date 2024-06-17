@@ -632,6 +632,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mLockScreenTimeout;
     boolean mLockScreenTimerActive;
 
+    // Allowed theater mode wake actions
+    private boolean mAllowTheaterModeWakeFromKey;
+
     // Behavior of ENDCALL Button.  (See Settings.System.END_BUTTON_BEHAVIOR.)
     int mEndcallBehavior;
 
@@ -2405,7 +2408,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_lidKeyboardAccessibility);
         mLidNavigationAccessibility = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_lidNavigationAccessibility);
-
+	mAllowTheaterModeWakeFromKey = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_allowTheaterModeWakeFromKey);
         mGoToSleepOnButtonPressTheaterMode = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_goToSleepOnButtonPressTheaterMode);
 
@@ -5874,12 +5878,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     }
-    
+
     private boolean wakeUp(long wakeTime, boolean wakeInTheaterMode, @WakeReason int reason,
             String details) {
         return wakeUp(wakeTime, wakeInTheaterMode, reason, details, false);
     }
-    
+
     private boolean wakeUp(long wakeTime, boolean wakeInTheaterMode, @WakeReason int reason,
             String details, boolean withProximityCheck) {
         final boolean theaterModeEnabled = isTheaterModeEnabled();
