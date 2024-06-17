@@ -479,6 +479,7 @@ class MobileIconInteractorImpl(
                 numberOfLevels.value,
                 showExclamationMark.value,
                 carrierNetworkChangeActive.value,
+		showRoaming.value
             )
         isNonTerrestrial
             .flatMapLatest { ntn ->
