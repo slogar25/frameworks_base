@@ -288,7 +288,7 @@ public class PermissionUsageHelper implements AppOpsManager.OnOpActiveChangedLis
      * The returned data is to power privacy indicator.
      */
     public @NonNull List<PermissionGroupUsage> getOpUsageDataByDevice(
-            boolean includeMicrophoneUsage, String deviceId) {
+            boolean includeMicrophoneUsage, String deviceId, boolean isMicMuted) {
         List<PermissionGroupUsage> usages = new ArrayList<>();
 
         if (!shouldShowIndicators()) {
