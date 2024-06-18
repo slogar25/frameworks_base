@@ -55,6 +55,7 @@ import android.os.UserHandle;
 import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -112,7 +113,6 @@ import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.user.domain.interactor.SelectedUserInteractor;
 import com.android.systemui.util.concurrency.DelayableExecutor;
 import com.android.systemui.util.concurrency.Execution;
-import com.android.systemui.util.settings.SecureSettings;
 import com.android.systemui.util.time.SystemClock;
 
 import dagger.Lazy;
@@ -185,7 +185,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     @NonNull private final Lazy<DefaultUdfpsTouchOverlayViewModel>
             mDefaultUdfpsTouchOverlayViewModel;
     @NonNull private final AlternateBouncerInteractor mAlternateBouncerInteractor;
-    @NonNull private final SecureSettings mSecureSettings;
     @NonNull private final UdfpsOverlayInteractor mUdfpsOverlayInteractor;
     @NonNull private final PowerInteractor mPowerInteractor;
     @NonNull private final CoroutineScope mScope;
@@ -310,7 +309,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                         mKeyguardStateController,
                         mUnlockedScreenOffAnimationController,
                         mUdfpsDisplayMode,
-                        mSecureSettings,
                         requestId,
                         reason,
                         callback,
@@ -330,6 +328,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                         mShadeInteractor,
                         mUdfpsOverlayInteractor,
                         mPowerInteractor,
+			null, // SecureSettings parameter
                         mScope
                     )));
         }
@@ -724,7 +723,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             @NonNull SinglePointerTouchProcessor singlePointerTouchProcessor,
             @NonNull SessionTracker sessionTracker,
             @NonNull AlternateBouncerInteractor alternateBouncerInteractor,
-            @NonNull SecureSettings secureSettings,
             @NonNull InputManager inputManager,
             @NonNull DeviceEntryFaceAuthInteractor deviceEntryFaceAuthInteractor,
             @NonNull UdfpsKeyguardAccessibilityDelegate udfpsKeyguardAccessibilityDelegate,
@@ -777,7 +775,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         mPrimaryBouncerInteractor = primaryBouncerInteractor;
         mShadeInteractor = shadeInteractor;
         mAlternateBouncerInteractor = alternateBouncerInteractor;
-        mSecureSettings = secureSettings;
         mUdfpsOverlayInteractor = udfpsOverlayInteractor;
         mPowerInteractor = powerInteractor;
         mScope = scope;
@@ -823,20 +820,23 @@ public class UdfpsController implements DozeReceiver, Dumpable {
 
         mAmbientDisplayConfiguration = new AmbientDisplayConfiguration(mContext);
         boolean screenOffFodSupported = mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_supportsScreenOffUdfps);
+                com.android.internal.R.bool.config_supportsScreenOffUdfps) ||
+                !TextUtils.isEmpty(mContext.getResources().getString(
+                    com.android.internal.R.string.config_dozeUdfpsLongPressSensorType));
         if (screenOffFodSupported) {
-            mScreenOffFod = mSecureSettings.getIntForUser(
+            mScreenOffFod = Settings.Secure.getIntForUser(context.getContentResolver(),
                 Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
-            mSecureSettings.registerContentObserver(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED,
+            mContext.getContentResolver().registerContentObserver(
+                Settings.Secure.getUriFor(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED), false,
                 new ContentObserver(mainHandler) {
                     @Override
                     public void onChange(boolean selfChange, Uri uri) {
                         if (uri.getLastPathSegment().equals(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED)) {
-                            mScreenOffFod = mSecureSettings.getIntForUser(
+                            mScreenOffFod = Settings.Secure.getIntForUser(context.getContentResolver(),
                                 Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
                         }
                     }
-                }
+                }, UserHandle.USER_ALL
             );
         }
 
