@@ -1967,4 +1967,14 @@
     <!-- Microns/ums (1000 um = 1mm) per pixel for the given device. If unspecified, UI that
          relies on this value will not be sized correctly. -->
     <item name="pixel_pitch" format="float" type="dimen">-1</item>
+
+    <!-- The maximum height of a big picture in a notification. The images will be reduced to that height in case they are bigger. -->
+    <dimen name="notification_big_picture_max_height_low_ram">208dp</dimen>
+    <!-- The maximum height of a big picture in a notification. The images will be reduced to that height in case they are bigger. This value is determined by the maximum notification height -->
+    <dimen name="notification_big_picture_max_height">284dp</dimen>
+    <!-- The maximum width of a big picture in a notification. The images will be reduced to that width in case they are bigger. -->
+    <dimen name="notification_big_picture_max_width_low_ram">294dp</dimen>
+    <!-- The maximum width of a big picture in a notification. The images will be reduced to that width in case they are bigger. This value is determined by the standard panel size -->
+    <!-- The maximum width of a big picture in a notification. The images will be reduced to that width in case they are bigger. This value is determined by the standard panel size -->
+    <dimen name="notification_big_picture_max_width">416dp</dimen>
 </resources>
