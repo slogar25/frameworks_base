@@ -215,9 +215,11 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
             KeyguardClockSwitch keyguardClockSwitch,
             StatusBarStateController statusBarStateController,
             ClockRegistry clockRegistry,
+	    ConfigurationState configurationState,
             KeyguardSliceViewController keyguardSliceViewController,
             NotificationIconAreaController notificationIconAreaController,
             LockscreenSmartspaceController smartspaceController,
+	    SystemBarUtilsState systemBarUtilsState,
             NotificationIconContainerAlwaysOnDisplayViewBinder nicViewBinder,
             KeyguardUnlockAnimationController keyguardUnlockAnimationController,
             SecureSettings secureSettings,
@@ -226,19 +228,26 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
             DumpManager dumpManager,
             ClockEventController clockEventController,
             @KeyguardClockLog LogBuffer logBuffer,
+	    NotificationIconContainerAlwaysOnDisplayViewModel aodIconsViewModel,
+	    KeyguardRootViewModel keyguardRootViewModel,
             KeyguardInteractor keyguardInteractor,
             KeyguardClockInteractor keyguardClockInteractor,
             FeatureFlagsClassic featureFlags,
             InWindowLauncherUnlockAnimationManager inWindowLauncherUnlockAnimationManager,
             ActivityStarter activityStarter,
             ConfigurationController configurationController,
-            FlashlightController flashlightController) {
+            FlashlightController flashlightController,
+	    ScreenOffAnimationController screenOffAnimationController,
+            StatusBarIconViewBindingFailureTracker iconViewBindingFailureTracker,
+            AlwaysOnDisplayNotificationIconViewStore aodIconViewStore,
+            DozeParameters dozeParameters) {
         super(keyguardClockSwitch);
         mStatusBarStateController = statusBarStateController;
         mClockRegistry = clockRegistry;
         mKeyguardSliceViewController = keyguardSliceViewController;
         mNotificationIconAreaController = notificationIconAreaController;
         mSmartspaceController = smartspaceController;
+	mSystemBarUtilsState = systemBarUtilsState;
         mNicViewBinder = nicViewBinder;
         mSecureSettings = secureSettings;
         mUiExecutor = uiExecutor;
@@ -246,6 +255,9 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         mKeyguardUnlockAnimationController = keyguardUnlockAnimationController;
         mDumpManager = dumpManager;
         mClockEventController = clockEventController;
+	mAodIconsViewModel = aodIconsViewModel;
+	mKeyguardRootViewModel = keyguardRootViewModel;
+	mConfigurationState = configurationState;
         mLogBuffer = logBuffer;
         mView.setLogBuffer(mLogBuffer);
         mFeatureFlags = featureFlags;
@@ -255,6 +267,10 @@ public class KeyguardClockSwitchController extends ViewController<KeyguardClockS
         mKeyguardInteractor = keyguardInteractor;
         mKeyguardClockInteractor = keyguardClockInteractor;
         mInWindowLauncherUnlockAnimationManager = inWindowLauncherUnlockAnimationManager;
+	mScreenOffAnimationController = screenOffAnimationController;
+        mIconViewBindingFailureTracker = iconViewBindingFailureTracker;
+        mAodIconViewStore = aodIconViewStore;
+        mDozeParameters = dozeParameters;
 
         mClockChangedListener = new ClockRegistry.ClockChangeListener() {
             @Override
