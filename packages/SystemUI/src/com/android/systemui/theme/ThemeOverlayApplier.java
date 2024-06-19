@@ -311,15 +311,13 @@ public class ThemeOverlayApplier implements Dumpable {
         });
     }
 
-
-    public void setIsBlackTheme(boolean black) {
-        mIsBlackTheme = black;
-    }
+    protected static final String OVERLAY_BLACK_THEME =
+            "com.android.system.theme.black";
 
     public void applyBlackTheme(boolean enable) {
         mBgExecutor.execute(() -> {
             try {
-                mOverlayManager.setEnabled("com.android.system.theme.black",
+                mOverlayManager.setEnabled(OVERLAY_BLACK_THEME,
                         enable, UserHandle.SYSTEM);
             } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "setEnabled failed", e);

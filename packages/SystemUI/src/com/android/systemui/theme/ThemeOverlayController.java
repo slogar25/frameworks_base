@@ -523,6 +523,7 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
             // Force reload so that we update even when the main color has not changed
             reevaluateSystemTheme(true /* forceReload */);
         });
+        
         mSecureSettings.registerContentObserverForUser(
                 Settings.Secure.getUriFor(Settings.Secure.SYSTEM_BLACK_THEME),
                 false,
@@ -537,11 +538,6 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
                         if (!mDeviceProvisionedController.isUserSetup(userId)) {
                             Log.i(TAG, "Theme application deferred when setting changed.");
                             mDeferredThemeEvaluation = true;
-                            return;
-                        }
-                        if (mSkipSettingChange) {
-                            if (DEBUG) Log.d(TAG, "Skipping setting change");
-                            mSkipSettingChange = false;
                             return;
                         }
                         reevaluateSystemTheme(true /* forceReload */);
@@ -1097,12 +1093,14 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
 
         FabricatedOverlay[] fOverlays = null;
 
-        boolean nightMode = (mContext.getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        boolean isBlackTheme = mSecureSettings.getInt(Settings.Secure.SYSTEM_BLACK_THEME, 0) == 1
-                                && nightMode;
-
-        mThemeManager.setIsBlackTheme(isBlackTheme);
+        boolean isBlackTheme = Settings.Secure.getIntForUser(
+                mContext.getContentResolver(), Settings.Secure.SYSTEM_BLACK_THEME,
+                0, currentUser) == 1 && isNightMode();
+        if (categoryToPackage.containsKey(OVERLAY_CATEGORY_SYSTEM_PALETTE) && isBlackTheme) {
+            OverlayIdentifier blackTheme = new OverlayIdentifier(mThemeManager.OVERLAY_BLACK_THEME);
+            categoryToPackage.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, blackTheme);
+        }
+        mThemeManager.applyBlackTheme(isBlackTheme);
 
         if (mNeedsOverlayCreation) {
             mNeedsOverlayCreation = false;
@@ -1110,8 +1108,6 @@ public class ThemeOverlayController implements CoreStartable, Dumpable, TunerSer
                     mSecondaryOverlay, mNeutralOverlay, mDynamicOverlay
             };
         }
-
-        mThemeManager.applyBlackTheme(isBlackTheme);
         
         mThemeManager.applyCurrentUserOverlays(categoryToPackage, fOverlays, currentUser,
                 managedProfiles, onCompleteCallback);
